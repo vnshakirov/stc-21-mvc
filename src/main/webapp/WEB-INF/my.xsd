@@ -1,0 +1,11 @@
+<xsd:schema xmlns="http://www.stc21.ru/schema/beans"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.stc21.ru/schema/beans">
+
+    <xsd:element name="myElement" type="type"></xsd:element>
+
+    <xsd:complexType name="type">
+        <xsd:attribute type="xsd:string" name="string"/>
+    </xsd:complexType>
+
+</xsd:schema>

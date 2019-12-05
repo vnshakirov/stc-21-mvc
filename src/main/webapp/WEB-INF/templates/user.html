@@ -5,12 +5,14 @@
     <title>Title</title>
 </head>
 <body>
+<!--/*@thymesVar id="userObject" type="ru.stc21.internal.User"*/-->
 <form th:action="@{/mvc/hello}" method="post">
     <label>Имя</label>
-    <label th:text="${user.getLogin()}"></label>
+    <label th:text="${userObject?.login}"></label>
     <label>Пароль</label>
-    <label th:text="${user.password}"></label>
+    <label th:text="${userObject?.password}"></label>
     <label>Дата</label>
-    <label th:text="${user.date}"></label>
+    <label th:text="${userObject?.date}"></label>
 </form>
+</body>
 </html>

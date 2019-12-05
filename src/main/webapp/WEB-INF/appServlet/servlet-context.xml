@@ -2,15 +2,21 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:my="http://www.stc21.ru/schema/beans"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/context
-http://www.springframework.org/schema/context/spring-context.xsd">
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.stc21.ru/schema/beans">
 
     <context:component-scan base-package = "ru.stc21.servlet" />
 
     <context:component-scan base-package="ru.stc21.internal"/>
+
+    <my:myElement string="123"/>
+
+    <my:a123></my:a123>
 
     <bean class = "org.thymeleaf.spring5.view.ThymeleafViewResolver">
         <property name="templateEngine" ref="templateEngine"/>

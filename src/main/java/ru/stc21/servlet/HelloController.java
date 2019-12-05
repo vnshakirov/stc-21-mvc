@@ -3,6 +3,7 @@ package ru.stc21.servlet;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.stc21.internal.HelloServer;
 import ru.stc21.internal.User;
 
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @Controller
+@SessionAttributes("user")
 public class HelloController {
 
     private final HelloServer server;
@@ -27,15 +29,22 @@ public class HelloController {
     }
 
     @GetMapping("/hello")
-    public String getHelloPageAndWriteToConsole(Model model) {
+    public String getHelloPageAndWriteToConsole(User user, Model model) {
         String text = "Hello world";
         //model.addAttribute("text", text);
         return "hello";
     }
 
+    @GetMapping("/hello2")
+    public String getHelloPage(@ModelAttribute("user") User user, Model model) {
+        return "redirect:/mvc/hello";
+    }
+
     @PostMapping("/hello")
-    public String addUser(User user, Model model) throws ParseException {
-        model.addAttribute("user", user);
-        return "user";
+    public ModelAndView addUser(User user) throws ParseException {
+        ModelAndView mav = new ModelAndView("user");
+        mav.addObject("userObject", user);
+        //model.addAttribute("user", user);
+        return mav;
     }
 }
