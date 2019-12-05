@@ -2,11 +2,15 @@ package ru.stc21.servlet;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.stc21.internal.HelloServer;
+import ru.stc21.internal.User;
 
 import javax.annotation.PostConstruct;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Controller
 public class HelloController {
@@ -22,12 +26,16 @@ public class HelloController {
         server.setHelloString("Hello");
     }
 
-    @RequestMapping("/hello")
-    public String getHelloPageAndWriteToConsole(Model model, @RequestParam("id") int id) {
-        System.out.println(id);
-        model.addAttribute("id", id);
-        System.out.println(model);
-        //System.out.println(server.getHelloString());
-        return "index";
+    @GetMapping("/hello")
+    public String getHelloPageAndWriteToConsole(Model model) {
+        String text = "Hello world";
+        //model.addAttribute("text", text);
+        return "hello";
+    }
+
+    @PostMapping("/hello")
+    public String addUser(User user, Model model) throws ParseException {
+        model.addAttribute("user", user);
+        return "user";
     }
 }

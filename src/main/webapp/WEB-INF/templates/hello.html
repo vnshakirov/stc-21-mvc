@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<label th:text="${text}"></label>
+<form th:action="@{/mvc/hello}" method="post">
+    <label>Имя</label>
+    <input th:name="login">
+    <label>Пароль</label>
+    <input th:name="password">
+    <label>Дата</label>
+    <input th:name="date" type="date">
+    <button type="submit">Отправить</button>
+
+</form>
+</html>

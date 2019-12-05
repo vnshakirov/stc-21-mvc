@@ -12,9 +12,21 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="ru.stc21.internal"/>
 
+    <bean class = "org.thymeleaf.spring5.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine"/>
+        <property name="characterEncoding" value="UTF-8"/>
+        <property name="excludedViewNames">
+            <array>
+                <value>index</value>
+            </array>
+        </property>
+    </bean>
+
     <bean class = "org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name = "prefix" value = "/WEB-INF/" />
         <property name = "suffix" value = ".jsp" />
     </bean>
+
+
 </beans>
 
