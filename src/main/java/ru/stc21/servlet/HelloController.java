@@ -1,6 +1,7 @@
 package ru.stc21.servlet;
 
 import org.springframework.data.domain.Example;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -35,16 +36,11 @@ public class HelloController {
     @GetMapping("/hello")
     public String getHelloPageAndWriteToConsole(User user, Model model) {
         String text = "Hello world";
-        userCrudRepository.findAll();
-        userCrudRepository.updateLogin("123", "345");
-
-        User user1 = new User();
-        user1.setPassword("123");
-        List<User> users = userCrudRepository.findAll(Example.of(user1));
         return "hello";
     }
 
     @GetMapping("/hello2")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getHelloPage(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("userObject", user);
         return "user";
@@ -56,5 +52,10 @@ public class HelloController {
         mav.addObject("userObject", user);
         //model.addAttribute("user", user);
         return mav;
+    }
+
+    @GetMapping("/login")
+    public String getLoginPage() {
+        return "login";
     }
 }

@@ -2,8 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security.xsd">
 
     <context:component-scan base-package="ru.stc21.internal"/>
 
@@ -15,5 +21,32 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
         <property name="serviceInterface" value="ru.stc21.rmi.server.UserService"/>
         <property name="registryPort" value="1199"/>
     </bean>
+
+    <sec:http auto-config="true">
+        <sec:csrf disabled="false"/>
+        <sec:intercept-url pattern="/mvc/login" access="permitAll()"/>
+        <sec:intercept-url pattern="/j_spring_security_check" access="permitAll()"/>
+        <sec:intercept-url pattern="/mvc/hello" method="POST" access="hasRole('ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/mvc/hello" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
+        <sec:form-login login-processing-url="/j_spring_security_check"
+                    username-parameter="j_username"
+                    password-parameter="j_password"
+
+                    login-page="/mvc/login"
+                    default-target-url="/mvc/hello"
+                    authentication-failure-url="/login?login_error=t"/>
+        <sec:logout logout-url="/static/j_spring_security_logout"/>
+    </sec:http>
+
+    <sec:authentication-manager>
+        <sec:authentication-provider>
+            <sec:user-service>
+                <sec:user name="admin" password="{noop}1" authorities="ROLE_ADMIN"/>
+                <sec:user name="user" password="{noop}1" authorities="ROLE_USER"/>
+            </sec:user-service>
+        </sec:authentication-provider>
+    </sec:authentication-manager>
+
 
 </beans>

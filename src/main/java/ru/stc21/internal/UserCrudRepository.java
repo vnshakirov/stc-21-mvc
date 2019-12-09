@@ -14,7 +14,6 @@ import java.util.List;
 public interface UserCrudRepository extends JpaRepository<User, String> {
 
     User findByLogin(String login);
-    List<User> findByDateAfterAndLoginOrPasswordOrderByDate();
     User findByLoginLike(String login);
 
     @Query("select u from User u where u.date > :date")
