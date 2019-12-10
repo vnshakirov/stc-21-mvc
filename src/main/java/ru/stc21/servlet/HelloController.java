@@ -1,18 +1,23 @@
 package ru.stc21.servlet;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ru.stc21.internal.ExtendedUser;
 import ru.stc21.internal.HelloServer;
 import ru.stc21.internal.User;
 import ru.stc21.internal.UserCrudRepository;
 
 import javax.annotation.PostConstruct;
 import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -35,6 +40,10 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String getHelloPageAndWriteToConsole(User user, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        ExtendedUser authenticatedUser = (ExtendedUser)authentication.getPrincipal();
+        System.out.println(authenticatedUser.getBirthDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
+        System.out.println(authenticatedUser.getSnils());
         String text = "Hello world";
         return "hello";
     }

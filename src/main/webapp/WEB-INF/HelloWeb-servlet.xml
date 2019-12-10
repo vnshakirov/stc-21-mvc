@@ -26,9 +26,9 @@
         <sec:csrf disabled="false"/>
         <sec:intercept-url pattern="/mvc/login" access="permitAll()"/>
         <sec:intercept-url pattern="/j_spring_security_check" access="permitAll()"/>
-        <sec:intercept-url pattern="/mvc/hello" method="POST" access="hasRole('ROLE_ADMIN')"/>
-        <sec:intercept-url pattern="/mvc/hello" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
-        <sec:intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
+        <sec:intercept-url pattern="/mvc/hello" method="POST" access="hasRole('ROLE_ADMIN2')"/>
+        <sec:intercept-url pattern="/mvc/hello" access="hasAnyRole('ROLE_USER3', 'ROLE_ADMIN2')"/>
+        <sec:intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN2', 'ROLE_USER3')"/>
         <sec:form-login login-processing-url="/j_spring_security_check"
                     username-parameter="j_username"
                     password-parameter="j_password"
@@ -39,12 +39,14 @@
         <sec:logout logout-url="/static/j_spring_security_logout"/>
     </sec:http>
 
+    <bean id="userDetailsService" class="ru.stc21.internal.UserDetailsServiceImpl"/>
+
     <sec:authentication-manager>
-        <sec:authentication-provider>
-            <sec:user-service>
+        <sec:authentication-provider user-service-ref="userDetailsService">
+<!--            <sec:user-service>
                 <sec:user name="admin" password="{noop}1" authorities="ROLE_ADMIN"/>
                 <sec:user name="user" password="{noop}1" authorities="ROLE_USER"/>
-            </sec:user-service>
+            </sec:user-service>-->
         </sec:authentication-provider>
     </sec:authentication-manager>
 
